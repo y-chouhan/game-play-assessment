@@ -1,0 +1,45 @@
+<h1 id="time">10</h1>
+<img id="img" src="<%= @data[10] %>">
+<button>Play</button>
+
+<table>
+  <thead>
+    <td>Timer Value</td>
+    <td>Image</td>
+  </thead>
+  <tbody>
+    <% @game.plays.each do |play| %>
+      <tr>
+        <td><%= play.tick %></td>
+        <td><%= play.img %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  var image_urls = "<%= @data.values %>"
+  var img = document.getElementsByClassName("example");
+      
+  function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+
+    setInterval(function () {
+      seconds = parseInt(timer % 60, 10);
+
+      display.textContent = seconds;
+
+      img.attr('src', image_urls[seconds])
+
+      if (--timer < 1) {
+        timer = duration;
+      }
+    }, 1000);
+  }
+
+  window.onload = function () {
+      var tenSeconds = 10,
+          display = document.querySelector('#time');
+      startTimer(tenSeconds, display);
+  };
+</script> 

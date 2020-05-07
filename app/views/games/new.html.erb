@@ -1,0 +1,9 @@
+<%= form_for @game do |f| %>
+  <%= f.file_field :images, multiple: true, onChange: 'submitForm()' %>
+  <%= f.submit 'Upload' %>
+<% end %>
+
+<script>  
+  function submitForm() {
+  }
+</script>
