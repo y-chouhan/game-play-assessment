@@ -6,7 +6,7 @@
 
   <button id="play" onclick="grabValues()">Play</button>
 
-  <table>
+  <table class="<%= @game.plays.present? ? '' : 'hide' %>">
     <thead>
       <td>Timer</td>
       <td>Image</td>
@@ -73,5 +73,6 @@
     td_tag.append(img_tag);
     tr_tag.append(td_tag);
     table.prepend(tr_tag);
+    document.getElementsByTagName('table')[0].classList.remove("hide");
   }
 </script> 

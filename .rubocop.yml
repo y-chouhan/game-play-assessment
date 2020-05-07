@@ -1,0 +1,11 @@
+AllCops:
+  Exclude:
+    - config/**/*
+    - test/**/*
+    - node_modules//**/*
+    - db/**/*
+    - bin/**/*
+
+Style/Documentation:
+  Exclude:
+    - app/**/*
