@@ -1,9 +1,12 @@
-<%= form_for @game do |f| %>
-  <%= f.file_field :images, multiple: true, onChange: 'submitForm()' %>
-  <%= f.submit 'Upload' %>
-<% end %>
+<div class="new-game">
+  <%= form_for @game do |f| %>
+    <%= f.file_field :images, multiple: true, onChange: 'submitForm()' %>
+    <%= f.submit 'Upload', class: 'submit-btn' %>
+  <% end %>
+</div>
 
 <script>  
   function submitForm() {
+    document.getElementsByClassName('submit-btn')[0].click();
   }
 </script>

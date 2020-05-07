@@ -1,26 +1,32 @@
-<h1 id="time">10</h1>
-<img id="img" src="<%= @data[10] %>">
-<button>Play</button>
+<div class="play-page">
+  <h1 id="time">10</h1>
 
-<table>
-  <thead>
-    <td>Timer Value</td>
-    <td>Image</td>
-  </thead>
-  <tbody>
-    <% @game.plays.each do |play| %>
-      <tr>
-        <td><%= play.tick %></td>
-        <td><%= play.img %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <%= image_tag @data[10], id: 'img' %>
+  <br>
+
+  <button id="play" onclick="grabValues()">Play</button>
+
+  <table>
+    <thead>
+      <td>Timer</td>
+      <td>Image</td>
+    </thead>
+    <tbody id="t-body">
+      <% @game.plays.each do |play| %>
+        <tr>
+          <td><%= play.tick %></td>
+          <td class="img"><%= image_tag play.img %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <script>
-  var image_urls = "<%= @data.values %>"
-  var img = document.getElementsByClassName("example");
-      
+  var image_urls = <%= raw @data.values.to_json %>;
+  var img = document.getElementById("img");
+  var game = <%= @game.id %>
+
   function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
 
@@ -29,7 +35,7 @@
 
       display.textContent = seconds;
 
-      img.attr('src', image_urls[seconds])
+      img.setAttribute('src', image_urls[seconds-1])
 
       if (--timer < 1) {
         timer = duration;
@@ -38,8 +44,34 @@
   }
 
   window.onload = function () {
-      var tenSeconds = 10,
-          display = document.querySelector('#time');
-      startTimer(tenSeconds, display);
+    var tenSeconds = 10,
+        display = document.querySelector('#time');
+    startTimer(tenSeconds, display);
   };
+
+  function grabValues() {
+    var tick = document.getElementById("time").innerHTML;
+    var img = document.getElementById("img").getAttribute('src');
+    update_table(tick, img);
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "/plays?tick=" + tick + "&img=" + img + "&game_id=" + game, true);
+    xhttp.send();
+  }
+
+  function update_table(tick, img) {
+    var table = document.getElementById("t-body");
+    var tr_tag = document.createElement('tr');
+    var td_tag = document.createElement('td')
+    td_tag.innerHTML = tick;
+    tr_tag.append(td_tag);
+    td_tag = document.createElement('td')
+    td_tag.classList.add("img");
+    img_tag = document.createElement('img')
+    img_tag.setAttribute('src', img)
+    td_tag.append(img_tag);
+    tr_tag.append(td_tag);
+    table.prepend(tr_tag);
+  }
 </script> 
